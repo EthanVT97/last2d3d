@@ -52,14 +52,20 @@ RUN php artisan config:cache && \
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Configure Nginx
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+# Create supervisor log directory
+RUN mkdir -p /var/log/supervisor
 
-# Configure Supervisor
+# Configure Nginx and Supervisor
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Create entrypoint script
+RUN echo '#!/bin/sh\n\
+/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf' > /entrypoint.sh && \
+chmod +x /entrypoint.sh
+
+# Set the entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Expose port
 EXPOSE ${PORT}
-
-# Start Supervisor
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
