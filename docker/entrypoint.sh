@@ -12,8 +12,8 @@ chown -R www-data:www-data /var/www/storage
 chown -R www-data:www-data /var/www/bootstrap/cache
 
 # Replace environment variables in nginx configuration
-envsubst '${PORT}' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf.tmp
-mv /etc/nginx/conf.d/default.conf.tmp /etc/nginx/conf.d/default.conf
+envsubst '${PORT}' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf.tmp
+mv /etc/nginx/nginx.conf.tmp /etc/nginx/nginx.conf
 
 # Test nginx configuration
 nginx -t || exit 1

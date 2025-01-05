@@ -57,7 +57,8 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 RUN mkdir -p /var/log/supervisor
 
 # Configure Nginx and Supervisor
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+RUN rm -f /etc/nginx/conf.d/default.conf /etc/nginx/nginx.conf
+COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy and set up entrypoint script
