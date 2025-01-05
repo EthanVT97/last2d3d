@@ -12,7 +12,8 @@ RUN apk add --no-cache \
     nginx \
     supervisor \
     nodejs \
-    npm
+    npm \
+    gettext
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
