@@ -105,12 +105,12 @@ Route::middleware('auth')->group(function () {
     Route::prefix('lottery')->name('lottery.')->group(function () {
         Route::get('/thai', [LotteryController::class, 'thai'])->name('thai');
         Route::get('/laos', [LotteryController::class, 'laos'])->name('laos');
-        Route::post('/store', [LotteryController::class, 'store'])->name('store');
+        Route::post('/store', [LotteryController::class, 'store'])->name('store.general');
         Route::get('/results', [LotteryController::class, 'results'])->name('results');
 
         // Store route - POST only
         Route::post('/{type}/bet', [LotteryController::class, 'store'])
-            ->name('store')
+            ->name('store.bet')
             ->where('type', '2d|3d|thai|laos');
 
         // Show route - must be last
