@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: lottery-website
+    env: docker
+    dockerfilePath: ./Dockerfile
+    region: singapore
+    plan: standard
+    branch: main
+    numInstances: 1
+    healthCheckPath: /health
+    envVars:
+      - key: APP_NAME
+        value: Lottery
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        fromDatabase:
+          name: lottery-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: lottery-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: lottery-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: lottery-db
+          property: username
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: lottery-db
+          property: password
+
+databases:
+  - name: lottery-db
+    plan: standard
+    region: singapore

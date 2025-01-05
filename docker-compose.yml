@@ -1,0 +1,48 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: lottery-website
+    container_name: lottery-app
+    restart: unless-stopped
+    environment:
+      - APP_NAME=Lottery
+      - APP_ENV=production
+      - APP_KEY=${APP_KEY}
+      - APP_DEBUG=false
+      - APP_URL=${APP_URL}
+      - DB_CONNECTION=mysql
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "8000:80"
+    networks:
+      - lottery-network
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: lottery-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - lottery-network
+
+networks:
+  lottery-network:
+    driver: bridge
+
+volumes:
+  dbdata:
