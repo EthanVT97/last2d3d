@@ -1,12 +1,11 @@
 services:
   - type: web
     name: lottery-website
-    env: docker
-    dockerfilePath: ./Dockerfile
+    env: php
+    plan: free
     region: singapore
-    plan: standard
-    branch: main
-    numInstances: 1
+    buildCommand: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev && npm install && npm run build && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan migrate --force
+    startCommand: php artisan serve --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
       - key: APP_NAME
@@ -42,5 +41,5 @@ services:
 
 databases:
   - name: lottery-db
-    plan: standard
+    plan: free
     region: singapore
