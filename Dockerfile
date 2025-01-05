@@ -32,6 +32,9 @@ RUN composer install --no-scripts --no-autoloader --no-dev
 # Copy the rest of the application
 COPY . .
 
+# Create .env file
+COPY .env.example .env
+
 # Generate autoloader and optimize
 RUN composer dump-autoload --optimize
 
