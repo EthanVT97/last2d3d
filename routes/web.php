@@ -63,7 +63,7 @@ Route::get('/health', function() {
 });
 
 // Home Route
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index']);
 
 // Dashboard Route
 Route::get('/dashboard', [UserDashboardController::class, 'index'])->middleware('auth')->name('dashboard');
